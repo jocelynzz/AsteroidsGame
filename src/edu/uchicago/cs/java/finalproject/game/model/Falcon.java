@@ -95,7 +95,7 @@ public class Falcon extends Sprite {
 	// METHODS 
 	// ==============================================================
 
-	public void move() {
+	public void move() {//control the movement of the falcon.
 		super.move();
 		if (bThrusting) {
 			bFlame = true;
@@ -162,18 +162,6 @@ public class Falcon extends Sprite {
 					getFadeValue(), 175), getFadeValue());
 		}
 
-//		//shield on
-//		if (bShield && nShield > 0) {
-//
-//			setShield(getShield() - 1);
-//
-//			g.setColor(Color.cyan);
-//			g.drawOval(getCenter().x - getRadius(),
-//					getCenter().y - getRadius(), getRadius() * 2,
-//					getRadius() * 2);
-//
-//		} //end if shield
-
 		//thrusting
 		if (bFlame) {
 			g.setColor(colShip);
@@ -211,6 +199,8 @@ public class Falcon extends Sprite {
 			} //end assign flame points
 
 			//g.setColor( Color.white );
+
+
 			g.fillPolygon(nXFlames, nYFlames, FLAME.length);
 
 		} //end if flame
@@ -222,6 +212,17 @@ public class Falcon extends Sprite {
 	public void drawShipWithColor(Graphics g, Color col) {
 		super.draw(g);
 		g.setColor(col);
+
+        if (CommandCenter.getFalcon().getShield() == 1 ) {
+
+            //setShield(getShield() - 1);
+
+            g.setColor(Color.cyan);
+            g.drawOval(getCenter().x - getRadius(),
+                    getCenter().y - getRadius(), getRadius() * 2,
+                    getRadius() * 2);
+
+        } //end if shieldsss
 		g.drawPolygon(getXcoords(), getYcoords(), dDegrees.length);
 	}
 
@@ -253,5 +254,6 @@ public class Falcon extends Sprite {
 	public boolean getProtected() {return bProtected;}
 	public void setShield(int n) {nShield = n;}
 	public int getShield() {return nShield;}	
-	
+
+
 } //end class

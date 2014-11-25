@@ -67,7 +67,7 @@ As a defensive measure, you can implement a hyperspace to randomly move the falc
 
 
 Foes:
-Various UFOs.
+Various UFOs.//velocity of the weapon very slow
 TitaniumAsteroid which appears at higher levels, has a special color, requires several hits before it explodes, changes
 color as it weakens, and spawns smaller versions of itself like Asteroid.
 

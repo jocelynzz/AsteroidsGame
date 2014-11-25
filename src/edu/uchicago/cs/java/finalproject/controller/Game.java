@@ -22,18 +22,18 @@ public class Game implements Runnable, KeyListener {
 	// FIELDS
 	// ===============================================
 
-	public static final Dimension DIM = new Dimension(1100, 900); //the dimension of the game.
+	public static final Dimension DIM = new Dimension(900, 900); //the dimension of the game.1100, 900
 	private GamePanel gmpPanel;
 	public static Random R = new Random();
 	public final static int ANI_DELAY = 45; // milliseconds between screen
 											// updates (animation)
 	private Thread thrAnim;
 	private int nLevel = 1;
-	private int nTick = 0;
+	private static int nTick = 0;
 	private ArrayList<Tuple> tupMarkForRemovals;
 	private ArrayList<Tuple> tupMarkForAdds;
 	private boolean bMuted = true;
-	
+
 
 	private final int PAUSE = 80, // p key
 			QUIT = 81, // q key
@@ -43,10 +43,11 @@ public class Game implements Runnable, KeyListener {
 			START = 83, // s key
 			FIRE = 32, // space key
 			MUTE = 77, // m-key mute
+            SHIELD = 79, 				// a key arrow
 
 	// for possible future use
-	// HYPER = 68, 					// d key
-	// SHIELD = 65, 				// a key arrow
+	/* HYPER = 68, 					// d key*/
+
 	// NUM_ENTER = 10, 				// hyp
 	 SPECIAL = 70; 					// fire special weapon;  F key
 
@@ -110,12 +111,11 @@ public class Game implements Runnable, KeyListener {
 		// this thread animates the scene
 		while (Thread.currentThread() == thrAnim) {
 			tick();
-			spawnNewShipFloater();
+		    spawnNewShipFloater();
 			gmpPanel.update(gmpPanel.getGraphics()); // update takes the graphics context we must 
 														// surround the sleep() in a try/catch block
 														// this simply controls delay time between 
 														// the frames of the animation
-
 			//this might be a good place to check for collisions
 			checkCollisions();
 			//this might be a god place to check if the level is clear (no more foes)
@@ -138,6 +138,7 @@ public class Game implements Runnable, KeyListener {
 	} // end run
 
 	private void checkCollisions() {
+        //life was killed
 
 		
 		//@formatter:off
@@ -173,13 +174,23 @@ public class Game implements Runnable, KeyListener {
 
 					//falcon
 					if ((movFriend instanceof Falcon) ){
-						if (!CommandCenter.getFalcon().getProtected()){
+						if (!CommandCenter.getFalcon().getProtected()
+                                && CommandCenter.getFalcon().getShield()==0){
+
+                         // remove both friends and foes from the arraylist
 							tupMarkForRemovals.add(new Tuple(CommandCenter.movFriends, movFriend));
 							CommandCenter.spawnFalcon(false);
-							killFoe(movFoe);
+							killFoe(movFoe);//killing the enemies
 						}
 					}
-					//not the falcon
+
+                    else if (!CommandCenter.getFalcon().getProtected()
+                    && CommandCenter.getFalcon().getShield() == 1){
+                        killFoe(movFoe);
+                    }
+
+                    //}
+					//not the falcon//if it's the bullet
 					else {
 						tupMarkForRemovals.add(new Tuple(CommandCenter.movFriends, movFriend));
 						killFoe(movFoe);
@@ -253,23 +264,16 @@ public class Game implements Runnable, KeyListener {
 			}
 			//remove the original Foe	
 			tupMarkForRemovals.add(new Tuple(CommandCenter.movFoes, movFoe));
-		
-			
+
 		} 
 		//not an asteroid
 		else {
 			//remove the original Foe
 			tupMarkForRemovals.add(new Tuple(CommandCenter.movFoes, movFoe));
 		}
-		
-		
-		
 
-		
-		
-		
-		
-	}
+        tupMarkForRemovals.add(new Tuple(CommandCenter.movFoes, movFoe));
+		}
 
 	//some methods for timing events in the game,
 	//such as the appearance of UFOs, floaters (power-ups), etc. 
@@ -280,15 +284,17 @@ public class Game implements Runnable, KeyListener {
 			nTick++;
 	}
 
-	public int getTick() {
+	public static int getTick() {
 		return nTick;
 	}
 
 	private void spawnNewShipFloater() {
 		//make the appearance of power-up dependent upon ticks and levels
 		//the higher the level the more frequent the appearance
+        //if (nTick == 1) {
 		if (nTick % (SPAWN_NEW_SHIP_FLOATER - nLevel * 7) == 0) {
 			CommandCenter.movFloaters.add(new NewShipFloater());
+            //CommandCenter.movFloaters.add(new NewShipFloater());
 		}
 	}
 
@@ -311,7 +317,7 @@ public class Game implements Runnable, KeyListener {
 		}
 	}
 	
-	
+//there should always be asteroids on the screen
 	private boolean isLevelClear(){
 		//if there are no more Asteroids on the screen
 		
@@ -387,10 +393,23 @@ public class Game implements Runnable, KeyListener {
 			case RIGHT:
 				fal.rotateRight();
 				break;
+            case SHIELD:
+                //overridden
+                 int i = 10;
+                 while (i >= 0) {
+                     CommandCenter.getFalcon().setShield(1);
+                     i--;
+                 }
+
+                //CommandCenter.getFalcon().getShield(0);
+
+                 break;
+
 
 			// possible future use
 			// case KILL:
-			// case SHIELD:
+
+
 			// case NUM_ENTER:
 
 			default:
@@ -414,10 +433,15 @@ public class Game implements Runnable, KeyListener {
 				
 			//special is a special weapon, current it just fires the cruise missile. 
 			case SPECIAL:
-				CommandCenter.movFriends.add(new Cruise(fal));
-				//Sound.playSound("laser.wav");
+				CommandCenter.movFriends.add(new Cruise(fal));//this line was removed during class
+                //for (int nC = 0;)
+				Sound.playSound("laser.wav");
 				break;
-				
+
+            case SHIELD:
+                 CommandCenter.getFalcon().setShield(0);
+                 break;
+
 			case LEFT:
 				fal.stopRotating();
 				break;
@@ -426,6 +450,8 @@ public class Game implements Runnable, KeyListener {
 				break;
 			case UP:
 				fal.thrustOff();
+                fal.setDeltaX(0);
+                fal.setDeltaY(0);
 				clpThrust.stop();
 				break;
 				

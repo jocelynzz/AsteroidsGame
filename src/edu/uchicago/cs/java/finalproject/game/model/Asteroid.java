@@ -1,5 +1,5 @@
 package edu.uchicago.cs.java.finalproject.game.model;
-
+//pac
 
 import java.util.Arrays;
 
@@ -11,7 +11,8 @@ public class Asteroid extends Sprite {
 	private int nSpin;
 	
 	//radius of a large asteroid
-	private final int RAD = 100;
+	//private final int RAD = 100;
+    private final int RAD = 60;
 	
 	//nSize determines if the Asteroid is Large (0), Medium (1), or Small (2)
 	//when you explode a Large asteroid, you should spawn 2 or 3 medium asteroids
@@ -30,16 +31,18 @@ public class Asteroid extends Sprite {
 		setSpin(nSpin);
 			
 		//random delta-x
-		int nDX = Game.R.nextInt(10);
-		if(nDX %2 ==0)
-			nDX = -nDX;
-		setDeltaX(nDX);
+	//	int nDX = Game.R.nextInt(10);
+        //int nDx = 5;
+		//if(nDX %2 ==0)
+		//	nDX = -nDX;
+		//setDeltaX(nDX);
+       // setDeltaX(5);
 		
 		//random delta-y
-		int nDY = Game.R.nextInt(10);
-		if(nDY %2 ==0)
-			nDY = -nDY;
-		setDeltaY(nDY);
+		//int nDY = Game.R.nextInt(10);
+	//	if(nDY %2 ==0)
+		//	nDY = -nDY;
+		setDeltaY(10);
 			
 		assignRandomShape();
 		
@@ -70,12 +73,12 @@ public class Asteroid extends Sprite {
 		if(nSpin %2 ==0)
 			nSpin = -nSpin;
 		setSpin(nSpin);
-			
+	//fix the
 		//random delta-x
-		int nDX = Game.R.nextInt(10 + nSizeNew*2);
-		if(nDX %2 ==0)
-			nDX = -nDX;
-		setDeltaX(nDX);
+		//int nDX = Game.R.nextInt(10 + nSizeNew*2);
+	//	if(nDX %2 ==0)
+	//		nDX = -nDX;
+	//	setDeltaX(nDX);
 		
 		//random delta-y
 		int nDY = Game.R.nextInt(10+ nSizeNew*2);
@@ -117,8 +120,11 @@ public class Asteroid extends Sprite {
 
 	//overridden
 	public void move(){
-		super.move();
-		
+		//if (Game.getTick()%3 ==0){
+
+
+            super.move();
+        //}
 		//an asteroid spins, so you need to adjust the orientation at each move()
 		setOrientation(getOrientation() + getSpin());
 		

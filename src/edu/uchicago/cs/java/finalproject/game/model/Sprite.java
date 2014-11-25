@@ -76,9 +76,8 @@ public abstract class Sprite implements Movable {
 		setColor(Color.white);
 		setCenter(new Point(Game.R.nextInt(Game.DIM.width),
 				Game.R.nextInt(Game.DIM.height)));
+    }
 
-
-	}
 
 	public void setExpire(int n) {
 		nExpiry = n;
@@ -224,7 +223,7 @@ public abstract class Sprite implements Movable {
 	protected double[] convertToPolarDegs(ArrayList<Point> pntPoints) {
 
 		//ArrayList<Tuple<Double,Double>> dblCoords = new ArrayList<Tuple<Double,Double>>();
-		double[] dDegs = new double[pntPoints.size()];
+		double[] dDegs = new double[pntPoints.size()];//calculate degrees between x and y
 
 		int nC = 0;
 		for (Point pnt : pntPoints) {
@@ -232,7 +231,9 @@ public abstract class Sprite implements Movable {
 		}
 		return dDegs;
 	}
+
 	//utility function to convert to polar
+    // calculate hypotenuse of the function
 	protected double[] convertToPolarLens(ArrayList<Point> pntPoints) {
 
 		double[] dLens = new double[pntPoints.size()];
@@ -260,6 +261,7 @@ public abstract class Sprite implements Movable {
 
 	}
 
+    //as long as you know the point, you can draw a polygon
 	protected void assignPolarPoints(ArrayList<Point> pntCs) {
 		setDegrees(convertToPolarDegs(pntCs));
 		setLengths(convertToPolarLens(pntCs));

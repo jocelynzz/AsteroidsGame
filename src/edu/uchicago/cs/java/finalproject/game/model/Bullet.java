@@ -19,7 +19,7 @@ public Bullet(Falcon fal){
 		
 		//defined the points on a cartesean grid
 		ArrayList<Point> pntCs = new ArrayList<Point>();
-		
+	    //don't need to worry about this part.[0, 0] is the centre point
 		pntCs.add(new Point(0,3)); //top point
 		
 		pntCs.add(new Point(1,-1));
@@ -48,9 +48,11 @@ public Bullet(Falcon fal){
 
     //override the expire method - once an object expires, then remove it from the arrayList. 
 	public void expire(){
- 		if (getExpire() == 0)
- 			CommandCenter.movFriends.remove(this);
-		 else 
+ 		if (getExpire() == 0) {
+            CommandCenter.movFriends.remove(this);
+           // CommandCenter.getMovFriends().add(new Explosion(this));//when it was a debris it's doing nothing
+        }
+            else
 			setExpire(getExpire() - 1);
 	}
 
