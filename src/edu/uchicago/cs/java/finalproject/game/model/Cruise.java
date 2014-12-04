@@ -1,13 +1,13 @@
-package edu.uchicago.cs.java.finalproject.game.model;
+/*package edu.uchicago.cs.java.finalproject.game.model;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import edu.uchicago.cs.java.finalproject.controller.Game;
+import edu.uchicago.cs.java.finalproject.controller.Game;*/
 
-public class Cruise extends Sprite {
+/*public class Cruise extends Sprite {
 
 	private final double FIRE_POWER = 15.0;
 	private final int MAX_EXPIRE = 25;
@@ -138,3 +138,4 @@ public class Cruise extends Sprite {
 	}
 
 }
+*/

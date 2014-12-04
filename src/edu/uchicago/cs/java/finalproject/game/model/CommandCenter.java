@@ -14,15 +14,14 @@ public class CommandCenter {
 	private static Falcon falShip;
 	private static boolean bPlaying;
 	private static boolean bPaused;
+    private static FalconEnemy falEnemy;
 	
 	// These ArrayLists are thread-safe
 	public static CopyOnWriteArrayList<Movable> movDebris = new CopyOnWriteArrayList<Movable>();
 	public static CopyOnWriteArrayList<Movable> movFriends = new CopyOnWriteArrayList<Movable>();
 	public static CopyOnWriteArrayList<Movable> movFoes = new CopyOnWriteArrayList<Movable>();
 	public static CopyOnWriteArrayList<Movable> movFloaters = new CopyOnWriteArrayList<Movable>();
-
-
-  public static CopyOnWriteArrayList<Movable> scheduledDebris = new CopyOnWriteArrayList<Movable>();
+    public static CopyOnWriteArrayList<Movable> scheduledDebris = new CopyOnWriteArrayList<Movable>();
 
 	// Constructor made private - static Utility class only
 	private CommandCenter() {}

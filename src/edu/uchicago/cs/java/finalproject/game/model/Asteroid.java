@@ -9,6 +9,7 @@ import edu.uchicago.cs.java.finalproject.controller.Game;
 
 public class Asteroid extends Sprite {
 
+ // big asteroids move vertically. smaller asteroids move in randomn directions.
   private final AsteroidType type;
 
   private int nSpin;
@@ -19,7 +20,7 @@ public class Asteroid extends Sprite {
   //nSize determines if the Asteroid is Large (0), Medium (1), or Small (2)
   //when you explode a Large asteroid, you should spawn 2 or 3 medium asteroids
   //same for medium asteroid, you should spawn small asteroids
-  //small asteroids get blasted into debris
+
   public Asteroid(int nSize, AsteroidType type) {
 
     //call Sprite constructor
@@ -46,7 +47,7 @@ public class Asteroid extends Sprite {
     assignRandomShape();
     assignColor();
 
-    //an nSize of zero is a big asteroid
+    //an nSize of zero is a big asteroid. This is the number of times a asteroid being hit
     //a nSize of 1 or 2 is med or small asteroid respectively
     if (nSize == 0) {
       setRadius(RAD);
@@ -68,7 +69,7 @@ public class Asteroid extends Sprite {
       nSpin = -nSpin;
     }
     setSpin(nSpin);
-    //fix the
+
     //random delta-x
     int nDX = Game.R.nextInt(10 + nSizeNew * 2);
     if (type == AsteroidType.FIRE) {
@@ -103,6 +104,7 @@ public class Asteroid extends Sprite {
     setCenter(astExploded.getCenter());
   }
 
+  //draw debris
   private void drawTail() {
     if (type == AsteroidType.FIRE) {
       CommandCenter.scheduledDebris.add(new FireTailDebris(this.getCenter()));

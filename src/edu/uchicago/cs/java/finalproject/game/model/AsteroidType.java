@@ -4,6 +4,7 @@ package edu.uchicago.cs.java.finalproject.game.model;
  * Created by Jocelyn on 11/28/14.
  */
 public enum AsteroidType {
+    // this defines the probablity that each type of asteroids show up
     NORMAL(0, 70),
     SHIELD(70, 85),
     EXTRA_BULLET(85, 95),

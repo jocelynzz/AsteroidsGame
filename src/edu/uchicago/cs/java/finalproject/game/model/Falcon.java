@@ -20,9 +20,6 @@ public class Falcon extends Sprite {
   private boolean bFlame = false;
   private boolean bProtected; //for fade in and out
 
-  /*private boolean bThrusting = false;
-  private boolean bTurningRight = false;
-  private boolean bTurningLeft = false;*/
   public static final int SPEED = 24;
 
   private Shield nShield = new Shield();
@@ -76,12 +73,12 @@ public class Falcon extends Sprite {
     setColor(Color.white);
 
     double n = Game.DIM.height * 0.75;
-    //put falcon in the middle.
+    //put falcon in the bottom.
     setCenter(new Point(Game.DIM.width / 2, (int) n));
 
-    //with random orientation
+    //with fixed orientation
     setOrientation(270);
-    //setOrientation(Game.R.nextInt(360));
+
 
     //this is the size of the falcon
     setRadius(35);
@@ -108,58 +105,8 @@ public class Falcon extends Sprite {
         break;
       case RIGHT:
         setDeltaX(SPEED);
-
-        //  default:
-        // break; /*
-    /*super.move();
-		if (bThrusting) {
-			bFlame = true;
-			double dAdjustX = Math.cos(Math.toRadians(getOrientation()))
-					* THRUST;
-			double dAdjustY = Math.sin(Math.toRadians(getOrientation()))
-					* THRUST;
-			setDeltaX(getDeltaX() + dAdjustX);
-			setDeltaY(getDeltaY() + dAdjustY);
-		}
-		if (bTurningLeft) {
-
-			//if (getOrientation() <= 0 && bTurningLeft) {
-				//setOrientation(360);//
-            setDeltaX(-SPEED);
-			//}
-			//setOrientation(getOrientation() - DEGREE_STEP);
-		} 
-		if (bTurningRight) {
-			/*if (getOrientation() >= 360 && bTurningRight) {
-				setOrientation(0);
-			}
-			setOrientation(getOrientation() + DEGREE_STEP);*/
-        // setDeltaX(SPEED);
     }
   }
-  //} //end move
-
-	/*public void rotateLeft() {
-		bTurningLeft = true;
-	}
-
-	public void rotateRight() {
-		bTurningRight = true;
-	}
-
-	public void stopRotating() {
-		bTurningRight = false;
-		bTurningLeft = false;
-	}
-
-	public void thrustOn() {
-		bThrusting = true;
-	}
-
-	public void thrustOff() {
-		bThrusting = false;
-		bFlame = false;
-	}*/
 
   private int adjustColor(int nCol, int nAdj) {
     if (nCol - nAdj <= 0) {
@@ -288,6 +235,7 @@ public class Falcon extends Sprite {
     return nShield.getExpire();
   }
 
+
   public void setBoost(AsteroidType boost) {
     if (boost == AsteroidType.SHIELD) {
       setShield(100);
@@ -297,6 +245,7 @@ public class Falcon extends Sprite {
     }
   }
 
+  //set the maximum number of extra bullets
   public int getNumExtraBullets() {
     return Math.min(ammo.getExpire() / 100, 3);
   }

@@ -62,16 +62,24 @@ import edu.uchicago.cs.java.finalproject.game.model.Movable;
 	// METHODS 
 	// ==============================================================
 	
-	private void drawScore(Graphics g) {
+	private void drawScoreLevel(Graphics g) {
 		g.setColor(Color.white);
 		g.setFont(fnt);
 		if (CommandCenter.getScore() != 0) {
-			g.drawString("SCORE :  " + CommandCenter.getScore(), nFontWidth, nFontHeight);
+			g.drawString("SCORE :  " + CommandCenter.getScore() + "    " + "LEVEL:  "
+                    + CommandCenter.getLevel(), nFontWidth, nFontHeight);
 		} else {
 			g.drawString("NO SCORE", nFontWidth, nFontHeight);
 		}
 	}
-	
+
+     private void drawLevel(Graphics g) {
+         g.setColor(Color.white);
+         g.setFont(fnt);
+         g.drawString("LEVEL :  " + CommandCenter.getLevel(), nFontWidth, nFontHeight);
+
+         }
+
 	@SuppressWarnings("unchecked")
 	public void update(Graphics g) {
 		if (grpOff == null || Game.DIM.width != dimOff.width
@@ -84,7 +92,7 @@ import edu.uchicago.cs.java.finalproject.game.model.Movable;
 		grpOff.setColor(Color.black);
 		grpOff.fillRect(0, 0, Game.DIM.width, Game.DIM.height);
 
-		drawScore(grpOff);
+		drawScoreLevel(grpOff);
 		
 		if (!CommandCenter.isPlaying()) {
 			displayTextOnScreen();
@@ -198,31 +206,37 @@ import edu.uchicago.cs.java.finalproject.game.model.Movable;
 	// This method draws some text to the middle of the screen before/after a game
 	private void displayTextOnScreen() {
 
+        if (CommandCenter.getScore() != 0) {
 		strDisplay = "GAME OVER";
 		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4);
+				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4);}
+        else {
+            strDisplay = "ASTEROIDS";
+            grpOff.drawString(strDisplay,
+                    (Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4);
+        }
 
-		strDisplay = "use the arrow keys to turn and thrust";
+		strDisplay = "use the LEFT, RIGHT, DOWN and UP arrow keys to turn and thrust";
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 						+ nFontHeight + 40);
 
-		strDisplay = "use the space bar to fire";
+		strDisplay = "PRESS the space bar to fire";
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 						+ nFontHeight + 80);
 
-		strDisplay = "'S' to Start";
+		strDisplay = "PRESS 'S' to Start";
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 						+ nFontHeight + 120);
 
-		strDisplay = "'P' to Pause";
+		strDisplay = "PRESS 'P' to Pause";
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 						+ nFontHeight + 160);
 
-		strDisplay = "'Q' to Quit";
+		strDisplay = "PRESS 'Q' to Quit";
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 						+ nFontHeight + 200);

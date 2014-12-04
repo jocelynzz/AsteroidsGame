@@ -1,15 +1,6 @@
 package edu.uchicago.cs.java.finalproject.controller;
 
-import edu.uchicago.cs.java.finalproject.game.model.Asteroid;
-import edu.uchicago.cs.java.finalproject.game.model.AsteroidType;
-import edu.uchicago.cs.java.finalproject.game.model.Bullet;
-import edu.uchicago.cs.java.finalproject.game.model.CommandCenter;
-import edu.uchicago.cs.java.finalproject.game.model.Cruise;
-import edu.uchicago.cs.java.finalproject.game.model.Falcon;
-import edu.uchicago.cs.java.finalproject.game.model.Movable;
-import edu.uchicago.cs.java.finalproject.game.model.NewShipFloater;
-import edu.uchicago.cs.java.finalproject.game.model.Sprite;
-import edu.uchicago.cs.java.finalproject.game.model.Util;
+import edu.uchicago.cs.java.finalproject.game.model.*;
 import edu.uchicago.cs.java.finalproject.game.view.GamePanel;
 import edu.uchicago.cs.java.finalproject.sounds.Sound;
 import java.awt.*;
@@ -53,17 +44,15 @@ public class Game implements Runnable, KeyListener {
       FIRE = 32, // space key
       MUTE = 77, // m-key mute
       SHIELD = 79,        // a key arrow
-
-  // for possible future use
-  /* HYPER = 68, 					// d key*/
-
-  // NUM_ENTER = 10, 				// hyp
+//FUTURE USE
   SPECIAL = 70;          // fire special weapon;  F key
 
   private Clip clpThrust;
   private Clip clpMusicBackground;
 
   private static final int SPAWN_NEW_SHIP_FLOATER = 1200;
+  private static final int SPAWN_NEW_FALCON_ENEMY = 1200;
+
   private boolean pause;
 
   // ===============================================
@@ -121,6 +110,7 @@ public class Game implements Runnable, KeyListener {
       tick();
       addTailDebris();
       spawnNewShipFloater();
+      spawnNewFalconEnemy();
       gmpPanel.update(gmpPanel.getGraphics()); // update takes the graphics context we must
       // surround the sleep() in a try/catch block
       // this simply controls delay time between
@@ -157,7 +147,7 @@ public class Game implements Runnable, KeyListener {
 
   public void removeAsteroid() {
     for (Movable movFoe : CommandCenter.movFoes) {
-      if (movFoe instanceof Asteroid) {
+      if (movFoe instanceof Asteroid || movFoe instanceof FalconEnemy) {
         if ((movFoe.getCenter().y >= Game.DIM.height && ((Sprite) movFoe).getDeltaY() > 0) ||
             (movFoe.getCenter().y <= 0 && ((Sprite) movFoe).getDeltaY() < 0) ||
             (movFoe.getCenter().x <= 0 && ((Sprite) movFoe).getDeltaX() < 0) ||
@@ -240,12 +230,12 @@ public class Game implements Runnable, KeyListener {
               CommandCenter.spawnFalcon(false);
               killFoe(movFoe);//killing the enemies
             } else if (!falcon.getProtected() && falcon.getShield() > 0) {
-              // when the shield is on. you can shoot. both friends and foes removed from the list
+              // when the shield is on, you can shoot. Foes removed from the list
               falcon.setShield(Math.max(falcon.getShield() - 25, 0));
               killFoe(movFoe);
             }
           }
-          //not the falcon//if it's the bullet
+          //not the falcon. ie if it's the bullet. Both bullets and foes removed
           else {
             tupMarkForRemovals.add(new Tuple(CommandCenter.movFriends, movFriend));
             killFoe(movFoe);
@@ -271,6 +261,7 @@ public class Game implements Runnable, KeyListener {
         //detect collision
         if (pntFalCenter.distance(pntFloaterCenter) < (nFalRadiux + nFloaterRadiux)) {
           tupMarkForRemovals.add(new Tuple(CommandCenter.movFloaters, movFloater));
+          // number of falcon increased by 1
           CommandCenter.setNumFalcons(CommandCenter.getNumFalcons() + 1);
           Sound.playSound("pacman_eatghost.wav");
         }//end if
@@ -304,7 +295,7 @@ public class Game implements Runnable, KeyListener {
       //big asteroid
       long score = CommandCenter.getScore();
       if (astExploded.getSize() == 0) {
-        //spawn two medium Asteroids
+        //spawn two medium randomn type Asteroids
         tupMarkForAdds.add(new Tuple(CommandCenter.movFoes, new Asteroid(astExploded, Util.generateAsteroidType())));
         tupMarkForAdds.add(new Tuple(CommandCenter.movFoes, new Asteroid(astExploded, Util.generateAsteroidType())));
         CommandCenter.setScore(astExploded.getType() == AsteroidType.FIRE ? score + 50 : score + 10);
@@ -312,7 +303,7 @@ public class Game implements Runnable, KeyListener {
         tupMarkForRemovals.add(new Tuple(CommandCenter.movFoes, movFoe));
         CommandCenter.setScore(astExploded.getType() == AsteroidType.FIRE ? score + 100 : score + 2);
       }
-
+      //set weapon boost type if it's not a normal asteroid
       if (astExploded.getType() != AsteroidType.NORMAL) {
         CommandCenter.getFalcon().setBoost(astExploded.getType());
       }
@@ -349,6 +340,14 @@ public class Game implements Runnable, KeyListener {
       CommandCenter.movFloaters.add(new NewShipFloater());
     }
   }
+
+ private void spawnNewFalconEnemy() {
+        //make the appearance of power-up dependent upon ticks and levels
+        //the higher the level the more frequent the appearance
+       if (nTick % (SPAWN_NEW_FALCON_ENEMY - CommandCenter.getLevel() * 7) == 0) {
+        CommandCenter.movFoes.add(new FalconEnemy(0));
+        }
+    }
 
   // Called when user presses 's'
   private void startGame() {
@@ -388,8 +387,7 @@ public class Game implements Runnable, KeyListener {
   private void checkNewLevel() {
 
     if (isLevelClear()) {
-//			if (CommandCenter.getFalcon() !=null)
-//				CommandCenter.getFalcon().setProtected(true);
+        //falcon is not protected in the beginning of every level
 
       spawnAsteroids(CommandCenter.getLevel() + 2);
       CommandCenter.setLevel(CommandCenter.getLevel() + 1);
@@ -441,18 +439,6 @@ public class Game implements Runnable, KeyListener {
         case DOWN:
           fal.move(DOWN);
           break;
-        case SHIELD:
-          //overridden
-//                CommandCenter.getFalcon().setShield(100);
-          break;
-
-        //CommandCenter.getFalcon().getShield(0);
-
-        // possible future use
-        // case KILL:
-
-        // case NUM_ENTER:
-
         default:
           break;
       }
@@ -479,11 +465,11 @@ public class Game implements Runnable, KeyListener {
           break;
 
         //special is a special weapon, current it just fires the cruise missile.
-        case SPECIAL:
-          CommandCenter.movFriends.add(new Cruise(fal));//this line was removed during class
+     //   case SPECIAL:
+       //   CommandCenter.movFriends.add(new Cruise(fal));//this line was removed during class
           //for (int nC = 0;)
-          Sound.playSound("laser.wav");
-          break;
+       //   Sound.playSound("laser.wav");
+         // break;
         case LEFT:
           fal.stopMoving(LEFT);
           break;
