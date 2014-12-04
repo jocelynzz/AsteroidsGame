@@ -34,9 +34,9 @@ public class NewShipFloater extends Sprite {
 		setColor(Color.BLUE);
 
 
-		int nX = Game.R.nextInt(10);
-		int nY = Game.R.nextInt(10);
-		int nS = Game.R.nextInt(5);
+		int nX = Game.R.nextInt(10) + 1;
+		int nY = Game.R.nextInt(10) + 1;
+		int nS = Game.R.nextInt(5) + 1;
 		
 		//set random DeltaX
 		if (nX % 2 == 0)

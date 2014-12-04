@@ -1,6 +1,6 @@
 package edu.uchicago.cs.java.finalproject.game.model;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.ArrayList;
 
 import edu.uchicago.cs.java.finalproject.controller.Game;
@@ -8,52 +8,42 @@ import edu.uchicago.cs.java.finalproject.controller.Game;
 
 public class Bullet extends Sprite {
 
-	  private final double FIRE_POWER = 35.0;
+  private final double FIRE_POWER = 35.0;
 
-	 
-	
-public Bullet(Falcon fal){
-		
-		super();
-		
-		
-		//defined the points on a cartesean grid
-		ArrayList<Point> pntCs = new ArrayList<Point>();
-	    //don't need to worry about this part.[0, 0] is the centre point
-		pntCs.add(new Point(0,3)); //top point
-		
-		pntCs.add(new Point(1,-1));
-		pntCs.add(new Point(0,-2));
-		pntCs.add(new Point(-1,-1));
+  public Bullet(Falcon fal, int orientation) {
 
-		assignPolarPoints(pntCs);
+    super();
 
-		//a bullet expires after 20 frames
-	    setExpire( 20 );
-	    setRadius(6);
-	    
+    //defined the points on a cartesean grid
+    ArrayList<Point> pntCs = new ArrayList<Point>();
+    //don't need to worry about this part.[0, 0] is the centre point
+    pntCs.add(new Point(0, 3)); //top point
 
-	    //everything is relative to the falcon ship that fired the bullet
-	    setDeltaX( fal.getDeltaX() +
-	               Math.cos( Math.toRadians( fal.getOrientation() ) ) * FIRE_POWER );
-	    setDeltaY( fal.getDeltaY() +
-	               Math.sin( Math.toRadians( fal.getOrientation() ) ) * FIRE_POWER );
-	    setCenter( fal.getCenter() );
+    pntCs.add(new Point(1, -1));
+    pntCs.add(new Point(0, -2));
+    pntCs.add(new Point(-1, -1));
 
-	    //set the bullet orientation to the falcon (ship) orientation
-	    setOrientation(fal.getOrientation());
+    assignPolarPoints(pntCs);
 
+    //a bullet expires after 20 frames
+    setExpire(20);
+    setRadius(6);
+    setOrientation(orientation + fal.getOrientation());
 
-	}
+    //everything is relative to the falcon ship that fired the bullet
 
-    //override the expire method - once an object expires, then remove it from the arrayList. 
-	public void expire(){
- 		if (getExpire() == 0) {
-            CommandCenter.movFriends.remove(this);
-           // CommandCenter.getMovFriends().add(new Explosion(this));//when it was a debris it's doing nothing
-        }
-            else
-			setExpire(getExpire() - 1);
-	}
+    setDeltaX(Math.cos(Math.toRadians(getOrientation())) * FIRE_POWER);
+    setDeltaY(Math.sin(Math.toRadians(getOrientation())) * FIRE_POWER);
+    setCenter(fal.getCenter());
+//    setDim(new Dimension(Game.DIM.width, Game.DIM.height - fal.getCenter().y));
+  }
 
+  //override the expire method - once an object expires, then remove it from the arrayList.
+  public void expire() {
+    if (getExpire() == 0) {
+      CommandCenter.movFriends.remove(this);
+    } else {
+      setExpire(getExpire() - 1);
+    }
+  }
 }

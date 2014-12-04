@@ -10,7 +10,8 @@ import java.util.Random;
 import edu.uchicago.cs.java.finalproject.controller.Game;
 
 public abstract class Sprite implements Movable {
-	//the center-point of this sprite
+    public static final int RIGHT = 39, DOWN = 40, LEFT = 37, UP = 38;
+    //the center-point of this sprite
 	private Point pntCenter;
 	//this causes movement; change in x and change in y
 	private double dDeltaX, dDeltaY;
@@ -51,19 +52,17 @@ public abstract class Sprite implements Movable {
 		double dX = pnt.x + getDeltaX();
 		double dY = pnt.y + getDeltaY();
 		
+
 		//this just keeps the sprite inside the bounds of the frame
 		if (pnt.x > getDim().width) {
-			setCenter(new Point(1, pnt.y));
-
+			setCenter(new Point(getDim().width, pnt.y));
 		} else if (pnt.x < 0) {
-			setCenter(new Point(getDim().width - 1, pnt.y));
+			setCenter(new Point(0, pnt.y));
 		} else if (pnt.y > getDim().height) {
-			setCenter(new Point(pnt.x, 1));
-
+			setCenter(new Point(pnt.x, getDim().height));
 		} else if (pnt.y < 0) {
-			setCenter(new Point(pnt.x, getDim().height - 1));
+			setCenter(new Point(pnt.x, 0));
 		} else {
-
 			setCenter(new Point((int) dX, (int) dY));
 		}
 

@@ -107,6 +107,8 @@ import edu.uchicago.cs.java.finalproject.game.model.Movable;
 			
 			
 			drawNumberShipsLeft(grpOff);
+      drawNumberShieldsRemaining(grpOff);
+      drawNumberExtraBullets(grpOff);
 			if (CommandCenter.isGameOver()) {
 				CommandCenter.setPlaying(false);
 				//bPlaying = false;
@@ -161,10 +163,30 @@ import edu.uchicago.cs.java.finalproject.game.model.Movable;
 				nYs[nC] = pntMs[nC].y + Game.DIM.height - 40;
 			}
 			g.drawPolygon(nXs, nYs, nLen);
-		} 
-	}
-	
-	private void initView() {
+		}
+  }
+
+   private void drawNumberShieldsRemaining(Graphics g) {
+     Falcon fal = CommandCenter.getFalcon();
+     int shieldsPercent = fal.getShield();
+     g.setColor(Color.cyan);
+     g.drawString("Shield: " + shieldsPercent, 20, Game.DIM.height - 40);
+   }
+
+   private void drawNumberExtraBullets(Graphics g) {
+     Falcon fal = CommandCenter.getFalcon();
+     int extraBullets = fal.getNumExtraBullets();
+     String boosts = "";
+     if (extraBullets > 0) {
+       boosts += extraBullets * 2 + " Extra Bullets";
+     } else {
+       boosts = "NONE";
+     }
+     g.setColor(Color.red);
+     g.drawString("Weapon Boost: " + boosts, 100, Game.DIM.height - 40);
+   }
+
+   private void initView() {
 		Graphics g = getGraphics();			// get the graphics context for the panel
 		g.setFont(fnt);						// take care of some simple font stuff
 		fmt = g.getFontMetrics();
@@ -204,12 +226,26 @@ import edu.uchicago.cs.java.finalproject.game.model.Movable;
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 						+ nFontHeight + 200);
-		strDisplay = " 'O' for Shield";
+
+		strDisplay = "Shield";
+        grpOff.setColor(Color.CYAN);
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 						+ nFontHeight + 240);
 
-		strDisplay = "left index finger on 'F' for Guided Missile";
+        strDisplay = "ExtraBullet";
+        grpOff.setColor(Color.RED);
+        grpOff.drawString(strDisplay,
+                (Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+                        + nFontHeight + 280);
+
+        strDisplay = "FireTailDebris";
+        grpOff.setColor(Color.ORANGE);
+        grpOff.drawString(strDisplay,
+                (Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
+                        + nFontHeight + 320);
+
+		/*strDisplay = "left index finger on 'F' for Guided Missile";
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
 						+ nFontHeight + 280);
@@ -217,7 +253,7 @@ import edu.uchicago.cs.java.finalproject.game.model.Movable;
 		strDisplay = "'Numeric-Enter' for Hyperspace";
 		grpOff.drawString(strDisplay,
 				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 320);
+						+ nFontHeight + 320);*/
 	}
 	
 	public GameFrame getFrm() {return this.gmf;}

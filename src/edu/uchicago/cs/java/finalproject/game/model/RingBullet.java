@@ -20,7 +20,7 @@ public class RingBullet extends Bullet {
 
     public RingBullet(Falcon fal, int nOr){
 
-        super(fal);
+        super(fal, 0);
 
 
         //defined the points on a cartesean grid
