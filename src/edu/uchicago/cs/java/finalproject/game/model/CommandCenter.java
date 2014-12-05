@@ -21,7 +21,6 @@ public class CommandCenter {
 	public static CopyOnWriteArrayList<Movable> movFriends = new CopyOnWriteArrayList<Movable>();
 	public static CopyOnWriteArrayList<Movable> movFoes = new CopyOnWriteArrayList<Movable>();
 	public static CopyOnWriteArrayList<Movable> movFloaters = new CopyOnWriteArrayList<Movable>();
-    public static CopyOnWriteArrayList<Movable> scheduledDebris = new CopyOnWriteArrayList<Movable>();
 
 	// Constructor made private - static Utility class only
 	private CommandCenter() {}

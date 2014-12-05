@@ -35,7 +35,6 @@ public class BulletFoe extends Sprite {
         setDeltaX(Math.cos(Math.toRadians(getOrientation())) * FIRE_POWER);
         setDeltaY(Math.sin(Math.toRadians(getOrientation())) * FIRE_POWER);
         setCenter(falEnemy.getCenter());
-//    setDim(new Dimension(Game.DIM.width, Game.DIM.height - fal.getCenter().y));
     }
 
     //override the expire method - once an object expires, then remove it from the arrayList.

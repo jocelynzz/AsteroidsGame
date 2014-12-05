@@ -107,7 +107,7 @@ public class Asteroid extends Sprite {
   //draw debris
   private void drawTail() {
     if (type == AsteroidType.FIRE) {
-      CommandCenter.scheduledDebris.add(new FireTailDebris(this.getCenter()));
+      CommandCenter.movDebris.add(new FireTailDebris(this.getCenter()));
     }
   }
 

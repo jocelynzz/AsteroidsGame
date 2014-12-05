@@ -108,7 +108,6 @@ public class Game implements Runnable, KeyListener {
         continue;
       }
       tick();
-      addTailDebris();
       spawnNewShipFloater();
       spawnNewFalconEnemy();
       gmpPanel.update(gmpPanel.getGraphics()); // update takes the graphics context we must
@@ -137,13 +136,6 @@ public class Game implements Runnable, KeyListener {
       }
     } // end while
   } // end run
-
-  private void addTailDebris() {
-    for (Movable mv : CommandCenter.scheduledDebris) {
-      CommandCenter.getMovDebris().add(mv);
-    }
-    CommandCenter.scheduledDebris.clear();
-  }
 
   public void removeAsteroid() {
     for (Movable movFoe : CommandCenter.movFoes) {
@@ -313,10 +305,20 @@ public class Game implements Runnable, KeyListener {
     //not an asteroid
     else {
       //remove the original Foe
-      tupMarkForRemovals.add(new Tuple(CommandCenter.movFoes, movFoe));
+      if (movFoe instanceof FalconEnemy) {
+        FalconEnemy f = (FalconEnemy) movFoe;
+        long score = CommandCenter.getScore();
+        if (f.getHits() >= 1) {
+          tupMarkForRemovals.add(new Tuple(CommandCenter.movFoes, movFoe));
+          CommandCenter.setScore(score +100);
+        } else {
+          f.setHits(f.getHits() + 1);
+          CommandCenter.setScore(score +50);
+        }
+      } else {
+        tupMarkForRemovals.add(new Tuple(CommandCenter.movFoes, movFoe));
+      }
     }
-
-    tupMarkForRemovals.add(new Tuple(CommandCenter.movFoes, movFoe));
   }
 
   //some methods for timing events in the game,
@@ -336,7 +338,7 @@ public class Game implements Runnable, KeyListener {
   private void spawnNewShipFloater() {
     //make the appearance of power-up dependent upon ticks and levels
     //the higher the level the more frequent the appearance
-    if (nTick % (SPAWN_NEW_SHIP_FLOATER - CommandCenter.getLevel() * 7) == 0) {
+    if (nTick % 25 == 0 && Game.R.nextInt(Math.max(20, 30 - CommandCenter.getLevel())) == 5) {
       CommandCenter.movFloaters.add(new NewShipFloater());
     }
   }
@@ -344,9 +346,9 @@ public class Game implements Runnable, KeyListener {
  private void spawnNewFalconEnemy() {
         //make the appearance of power-up dependent upon ticks and levels
         //the higher the level the more frequent the appearance
-       if (nTick % (SPAWN_NEW_FALCON_ENEMY - CommandCenter.getLevel() * 7) == 0) {
-        CommandCenter.movFoes.add(new FalconEnemy(0));
-        }
+       if (nTick % 20 == 0 && Game.R.nextInt(Math.max(10, 20 - CommandCenter.getLevel())) == 5) {
+          CommandCenter.movFoes.add(new FalconEnemy());
+       }
     }
 
   // Called when user presses 's'

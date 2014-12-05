@@ -33,15 +33,18 @@ public class FalconEnemy extends Sprite {
     private int[] nYFlames = new int[FLAME.length];
 
     private Point[] pntFlames = new Point[FLAME.length];
+    private int _hits;
 
-    // ==============================================================
+  // ==============================================================
     // CONSTRUCTOR
     // ==============================================================
 
-    public FalconEnemy(int hits) {
+
+
+  public FalconEnemy() {
         super();
 
-        ArrayList<Point> pntCs = new ArrayList<Point>();
+    ArrayList<Point> pntCs = new ArrayList<Point>();
 
         // top of ship
         pntCs.add(new Point(0, 18));
@@ -70,15 +73,7 @@ public class FalconEnemy extends Sprite {
 
         assignPolarPoints(pntCs);
 
-      /*  if (hits == 0) {
-        setColor(Color.YELLOW);
-        } else if (hits == 1) {
-            setColor(Color.GRAY);
-        } else if (hits == 2)  {
-            setColor(Color.LIGHT_GRAY);
-        }*/
-
-        int nDY = 1;
+        int nDY = 1 + Game.R.nextInt(5);
         setDeltaY(nDY);
 
         setCenter(new Point(Game.R.nextInt(Game.DIM.width), 0));
@@ -87,6 +82,7 @@ public class FalconEnemy extends Sprite {
 
         //this is the size of the falconEnemey
         setRadius(50);
+        setColor(Color.MAGENTA);
         //setExpire(250);
 
     }
@@ -101,29 +97,34 @@ public class FalconEnemy extends Sprite {
         double x1 = this.getCenter().getX();
         double y1 = this.getCenter().getY();
         double angle = 0.0;
-        if (x>=x1 && y >= y1) {
-            angle = 90 - Math.toDegrees(Math.atan((y - y1) / (x - x1)));
-        }
-        else if (x<x1 && y >= y1) {
-            angle = 90 + Math.toDegrees(Math.atan((y - y1) / (x1 - x)));
-        }
-        else if (y < y1) {
-            angle = 90;
+        if (x >= x1 && y >= y1) {
+            angle = Math.toDegrees(Math.atan((y - y1) / (x - x1)));
+        } else if (x < x1 && y >= y1) {
+            angle = 180 - Math.toDegrees(Math.atan((y - y1) / (x1 - x)));
+        } else if (y < y1 && x < x1) {
+            angle = 180 + Math.toDegrees(Math.atan((y1 - y) / (x1 - x)));
+        } else {
+            angle = -Math.toDegrees(Math.atan((y1 - y) / (x - x1)));
         }
         int ang = (int) angle;
         return ang;
     }
 
     public void move() {
+      if (_hits == 1) {
+        setColor(Color.PINK);
+      }
         super.move();
         setOrientation(getOrientation());
-        CommandCenter.movFoes.add(new BulletFoe(this));
+        if (Game.getTick() % 10 == 0) {
+          CommandCenter.movFoes.add(new BulletFoe(this));
+        }
     }
 
     public void draw(Graphics g) {
 
         Color colShip;
-        colShip = Color.GREEN;
+        colShip = getColor();
 
         //thrusting
         if (bFlame) {
@@ -162,18 +163,13 @@ public class FalconEnemy extends Sprite {
         g.drawPolygon(getXcoords(), getYcoords(), dDegrees.length);
     }
 
-   // @Override
- // public void expire() {
-   //     if (getExpire() == 0)
-     //       CommandCenter.movFoes.remove(this);
-       // else
-         //   setExpire(getExpire() - 1);
-    //}
-    //@Override
-    //public void expire() {
-      //  ammo.expire();
-        //super.expire();
-   // }
+  public int getHits() {
+    return _hits;
+  }
+
+  public void setHits(int hits) {
+    _hits = hits;
+  }
 
     }
 //end class
