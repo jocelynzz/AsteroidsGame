@@ -27,7 +27,6 @@ public class FireTailDebris extends Sprite {
   @Override
   public void draw(Graphics g) {
     super.draw(g);
-    //fill this polygon (with whatever color it has)
     g.fillPolygon(getXcoords(), getYcoords(), dDegrees.length);
   }
 

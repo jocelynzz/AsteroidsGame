@@ -413,7 +413,6 @@ public class Game implements Runnable, KeyListener {
   public void keyPressed(KeyEvent e) {
     Falcon fal = CommandCenter.getFalcon();
     int nKey = e.getKeyCode();
-    // System.out.println(nKey);
     keyPressed.add(nKey);
 
     if (nKey == START && !CommandCenter.isPlaying()) {
@@ -428,9 +427,6 @@ public class Game implements Runnable, KeyListener {
           break;
         case UP:
           fal.move(UP);
-          //fal.thrustOn();
-          //	if (!CommandCenter.isPaused())
-          //clpThrust.loop(Clip.LOOP_CONTINUOUSLY);
           break;
         case LEFT:
           fal.move(LEFT);
@@ -466,12 +462,6 @@ public class Game implements Runnable, KeyListener {
           Sound.playSound("laser.wav");
           break;
 
-        //special is a special weapon, current it just fires the cruise missile.
-     //   case SPECIAL:
-       //   CommandCenter.movFriends.add(new Cruise(fal));//this line was removed during class
-          //for (int nC = 0;)
-       //   Sound.playSound("laser.wav");
-         // break;
         case LEFT:
           fal.stopMoving(LEFT);
           break;

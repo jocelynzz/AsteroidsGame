@@ -259,15 +259,6 @@ import edu.uchicago.cs.java.finalproject.game.model.Movable;
                 (Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
                         + nFontHeight + 320);
 
-		/*strDisplay = "left index finger on 'F' for Guided Missile";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 280);
-
-		strDisplay = "'Numeric-Enter' for Hyperspace";
-		grpOff.drawString(strDisplay,
-				(Game.DIM.width - fmt.stringWidth(strDisplay)) / 2, Game.DIM.height / 4
-						+ nFontHeight + 320);*/
 	}
 	
 	public GameFrame getFrm() {return this.gmf;}

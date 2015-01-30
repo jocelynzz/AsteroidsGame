@@ -32,11 +32,6 @@ public abstract class Sprite implements Movable {
 	//this game uses radial coordinates to render sprites
 	public double[] dLengths;
 	public double[] dDegrees;
-	
-	//for drawing alternative 
-	//public double[] dLengthAlts;
-	//public double[] dDegreeAlts;
-	
 
 	//fade value for fading in and out
 	private int nFade;
@@ -69,8 +64,6 @@ public abstract class Sprite implements Movable {
 	}
 
 	public Sprite() {
-
-	//you can override this and many more in the subclasses
 		setDim(Game.DIM);
 		setColor(Color.white);
 		setCenter(new Point(Game.R.nextInt(Game.DIM.width),
@@ -173,7 +166,6 @@ public abstract class Sprite implements Movable {
 		pntCenter = pntParam;
 	}
 
-
 	public void setYcoord(int nValue, int nIndex) {
 		nYCoords[nIndex] = nValue;
 	}
@@ -181,8 +173,7 @@ public abstract class Sprite implements Movable {
 	public void setXcoord(int nValue, int nIndex) {
 		nXCoords[nIndex] = nValue;
 	}
-	
-	
+
 	public int getYcoord( int nIndex) {
 		return nYCoords[nIndex];// = nValue;
 	}
@@ -190,8 +181,6 @@ public abstract class Sprite implements Movable {
 	public int getXcoord( int nIndex) {
 		return nXCoords[nIndex];// = nValue;
 	}
-	
-	
 
 	public int[] getXcoords() {
 		return nXCoords;
@@ -200,8 +189,7 @@ public abstract class Sprite implements Movable {
 	public int[] getYcoords() {
 		return nYCoords;
 	}
-	
-	
+
 	public void setXcoords( int[] nCoords) {
 		 nXCoords = nCoords;
 	}
@@ -260,18 +248,12 @@ public abstract class Sprite implements Movable {
 
 	}
 
-    //as long as you know the point, you can draw a polygon
 	protected void assignPolarPoints(ArrayList<Point> pntCs) {
 		setDegrees(convertToPolarDegs(pntCs));
 		setLengths(convertToPolarLens(pntCs));
 
 	}
-	
 
-
-
-
-	
     public void draw(Graphics g) {
         nXCoords = new int[dDegrees.length];
         nYCoords = new int[dDegrees.length];
@@ -291,12 +273,7 @@ public abstract class Sprite implements Movable {
             //need this line of code to create the points which we will need for debris
             pntCoords[nC] = new Point(nXCoords[nC], nYCoords[nC]);
         }
-        
-        
-        
 
-		
-        
         g.setColor(getColor());
         g.drawPolygon(getXcoords(), getYcoords(), dDegrees.length);
     }
@@ -316,8 +293,7 @@ public abstract class Sprite implements Movable {
 
 
 
-	public void expire() {
-	}
+	public void expire() { }
 
 	public int getFadeValue() {
 		return nFade;

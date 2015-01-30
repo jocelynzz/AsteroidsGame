@@ -14,7 +14,6 @@ public class BulletFoe extends Sprite {
 
         //defined the points on a cartesean grid
         ArrayList<Point> pntCs = new ArrayList<Point>();
-        //don't need to worry about this part.[0, 0] is the centre point
         pntCs.add(new Point(0, 3)); //top point
 
         pntCs.add(new Point(1, -1));

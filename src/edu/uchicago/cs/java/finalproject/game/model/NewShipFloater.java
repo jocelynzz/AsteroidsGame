@@ -44,23 +44,19 @@ public class NewShipFloater extends Sprite {
 		else
 			setDeltaX(-nX);
 
-		//set rnadom DeltaY
 		if (nY % 2 == 0)
 			setDeltaX(nY);
 		else
 			setDeltaX(-nY);
-		
-		//set random spin
+
 		if (nS % 2 == 0)
 			setSpin(nS);
 		else
 			setSpin(-nS);
 
-		//random point on the screen
 		setCenter(new Point(Game.R.nextInt(Game.DIM.width),
 				Game.R.nextInt(Game.DIM.height)));
 
-		//random orientation 
 		 setOrientation(Game.R.nextInt(360));
 
 	}

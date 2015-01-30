@@ -113,18 +113,13 @@ public class CommandCenter {
 		return movDebris;
 	}
 
-
-
 	public static CopyOnWriteArrayList<Movable> getMovFriends() {
 		return movFriends;
 	}
 
-
-
 	public static CopyOnWriteArrayList<Movable> getMovFoes() {
 		return movFoes;
 	}
-
 
 	public static CopyOnWriteArrayList<Movable> getMovFloaters() {
 		return movFloaters;
